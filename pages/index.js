@@ -1,18 +1,22 @@
 import axios from 'axios';
-import {ProductForm} from '../components/ProductForm';
+import {Layout} from '../components/Layout';
+import Link from 'next/link';
 
 function HomePage({products}) {
   return (
-    <div>
-      <ProductForm />
+    <Layout>
       {products.map((product) => (
-        <div key={product.id}>
-          <h1>{product.name}</h1>
-          <p>{product.description}</p>
-          <p>{product.price}</p>
-        </div>
+        <Link href={`/products/${product.id}`} key={product.id}>
+          <a>
+            <div className="border border-gray-200 shadow-md p-6">
+              <h1>{product.name}</h1>
+              <p>{product.description}</p>
+              <p>{product.price}</p>
+            </div>
+          </a>
+        </Link>
       ))}
-    </div>
+    </Layout>
   );
 }
 

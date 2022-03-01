@@ -1,9 +1,12 @@
-import React from 'react'
+import {Layout} from '../components/Layout';
+import {ProductForm} from '../components/ProductForm';
 
 function NewPage() {
   return (
-    <div>Add one Product</div>
-  )
+    <Layout>
+      <ProductForm />
+    </Layout>
+  );
 }
 
-export default NewPage
+export default NewPage;
