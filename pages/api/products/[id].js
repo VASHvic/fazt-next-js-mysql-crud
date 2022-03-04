@@ -15,15 +15,23 @@ export default async function handler(req, res) {
 }
 
 const getProduct = async (req, res) => {
-  const {id} = req.query;
-  const [result] = await pool.query('select * from product where id = ?', [id]);
-  return res.status(200).json(result[0]);
+  try {
+    const {id} = req.query;
+    const [result] = await pool.query('select * from product where id = ?', [id]);
+    return res.status(200).json(result[0]);
+  } catch (error) {
+    return res.status(500).json({message: error.message});
+  }
 };
 
 const deleteProduct = async (req, res) => {
-  const {id} = req.query;
-  const [result] = await pool.query('delete from product where id = ?', [id]);
-  return res.status(204).json();
+  try {
+    const {id} = req.query;
+    await pool.query('delete from product where id = ?', [id]);
+    return res.status(204).json();
+  } catch (error) {
+    return res.status(500).json({message: error.message});
+  }
 };
 
 const updateProduct = async (req, res) => {
@@ -38,6 +46,6 @@ const updateProduct = async (req, res) => {
     ]);
     return res.status(204).json();
   } catch (err) {
-    console.log(err);
+    return res.status(500).json({message: err.message});
   }
 };

@@ -1,13 +1,18 @@
 import axios from 'axios';
 import {useRouter} from 'next/router';
+import {toast} from 'react-toastify';
 import {Layout} from '../../components/Layout';
 
 function ProductView({product}) {
   const router = useRouter();
 
   async function handleDelete(id) {
-    await axios.delete(`/api/products/${id}`);
-    router.push('/');
+    try {
+      await axios.delete(`/api/products/${id}`);
+      router.push('/');
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
   }
   return (
     <Layout>

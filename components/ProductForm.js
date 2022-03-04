@@ -1,6 +1,7 @@
 import axios from 'axios';
 import {useEffect, useState} from 'react';
 import {useRouter} from 'next/router';
+import {toast} from 'react-toastify';
 
 export function ProductForm() {
   const [product, setProduct] = useState({
@@ -13,14 +14,17 @@ export function ProductForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (router.query.id) {
-      console.log('updating');
-      const res = await axios.put(`/api/products/${router.query.id}`, product);
+    try {
+      if (router.query.id) {
+        await axios.put(`/api/products/${router.query.id}`, product);
+        toast.success('Product updated succesfully');
+      } else {
+        await axios.post('/api/products', product);
+        toast.success('Product created succesfully');
+      }
       router.push('/');
-    } else {
-      const res = await axios.post('/api/products', product);
-      console.log(res);
-      router.push('/');
+    } catch (err) {
+      toast.error(err.response.data.message);
     }
   };
 
